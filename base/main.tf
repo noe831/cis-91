@@ -4,7 +4,7 @@ variable "credentials_file" {
 }
 
 variable "project" {
-  default = "your-project-here"
+  default = "phonic-arcana-324121"
 }
 
 variable "region" {
@@ -57,7 +57,7 @@ resource "google_compute_firewall" "default-firewall" {
   network = google_compute_network.vpc_network.name
   allow {
     protocol = "tcp"
-    ports = ["22"]
+    ports = ["22", "80"]
   }
   source_ranges = ["0.0.0.0/0"]
 }
