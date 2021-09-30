@@ -38,6 +38,7 @@ resource "google_compute_network" "vpc_network" {
 resource "google_compute_instance" "vm_instance" {
   name         = "cis91"
   machine_type = "e2-micro"
+  allow_stopping_for_update = true
 
   boot_disk {
     initialize_params {
@@ -50,6 +51,11 @@ resource "google_compute_instance" "vm_instance" {
     access_config {
     }
   }
+  
+  service_account {
+    email  = google_service_account.lab08-service-account.email
+    scopes = ["cloud-platform"]
+  }
 }
 
 resource "google_compute_firewall" "default-firewall" {
@@ -60,6 +66,17 @@ resource "google_compute_firewall" "default-firewall" {
     ports = ["22", "80", "3000", "5000"]
   }
   source_ranges = ["0.0.0.0/0"]
+}
+
+resource "google_service_account" "lab08-service-account" {
+  account_id   = "lab08-service-account"
+  display_name = "lab08-service-account"
+  description = "Service account for lab 08"
+}
+
+resource "google_project_iam_member" "project_member" {
+  role = "roles/compute.viewer"
+  member = "serviceAccount:${google_service_account.lab08-service-account.email}"
 }
 
 output "external-ip" {
