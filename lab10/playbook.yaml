@@ -1,0 +1,27 @@
+---
+- hosts: all
+  name: Add cis-91 packages
+  become: yes
+  tasks:
+    - name: Install packages 
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+        name:
+          - python3-pip 
+          - python3-venv
+    - name: Create folder
+      ansible.builtin.file: 
+        path: /data
+        state: directory
+    - name: Create ext4 filesystem on lab10-disk
+      community.general.filesystem:
+        fstype: ext4
+        dev: /dev/disk/by-id/google-lab10-disk
+        state: present
+    - name: Mount filesystem
+      ansible.posix.mount:
+        path: /data
+        src: /dev/disk/by-id/google-lab10-disk
+        fstype: ext4
+        state: mounted
