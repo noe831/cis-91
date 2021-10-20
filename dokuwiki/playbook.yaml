@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  name: Add cis-92 packages
+  name: Add cis-91 packages
   become: yes
   tasks:
     - name: Install packages 
@@ -10,6 +10,18 @@
         name:
           - python3-pip 
           - python3-venv
+          - apache2
+          - php
+          - php-xml
+        state: latest
+  name: Download and unarchive file for Dokuwiki
+  become: yes
+  tasks:
+    - name: Untar file
+      ansible.builtin.unarchive:
+        src: https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
+        dest: /var/www/html
+        remote_src: yes
     - name: Add groups
       ansible.builtin.group:
         
