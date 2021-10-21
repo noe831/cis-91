@@ -50,12 +50,12 @@ resource "google_compute_instance" "vm_instance" {
     network = google_compute_network.vpc_network.name
     access_config {
     }
+  }
 
   attached_disk {
       source = "data"
       mode = "READ_WRITE"
       device_name = "data"
-    }    
   }
   
   service_account {
@@ -90,7 +90,7 @@ resource "google_service_account" "dokuwiki-service-account" {
 }
 
 resource "google_project_iam_member" "project_member" {
-  role = "roles/editor"
+  role = "roles/storage.objectAdmin"
   member = "serviceAccount:${google_service_account.dokuwiki-service-account.email}"
 }
 

@@ -14,38 +14,36 @@
           - php
           - php-xml
         state: latest
-  name: Format disk called data and mount
-  become: yes
-  tasks:
-    - name: Create folder
-          ansible.builtin.file: 
-            path: /var/www
-            state: directory
-        - name: Create ext4 filesystem on data
-          community.general.filesystem:
-            fstype: ext4
-            dev: /dev/disk/by-id/google-data
-            state: present
-        - name: Mount filesystem
-          ansible.posix.mount:
-            path: /var/www
-            src: /dev/disk/by-id/google-data
-            fstype: ext4
-            state: mounted
-name: Download and unarchive file for Dokuwiki
-become: yes
-tasks:
-    - name: Create folder
-        ansible.builtin.file: 
-          path: /var/www/html
-          state: directory
-    - name: Untar file
+  #name: Format disk called 'data' and mount
+  #become: yes
+  #tasks:
+    - name: Create folder for disk called 'data'
+      ansible.builtin.file:
+        path: /var/www
+        state: directory
+    - name: Create ext4 filesystem on 'data'
+      community.general.filesystem:
+        fstype: ext4
+        dev: /dev/disk/by-id/google-data
+        state: present
+    - name: Mount filesystem
+      ansible.posix.mount:
+        path: /var/www
+        src: /dev/disk/by-id/google-data
+        fstype: ext4
+        state: mounted
+  #name: Download and unarchive file for Dokuwiki
+  #become: yes
+  #tasks:
+    - name: Create folder for Dokuwiki
+      ansible.builtin.file: 
+        path: /var/www/html
+        state: directory
+    - name: Untar file for Dokuwiki
       ansible.builtin.unarchive:
         src: https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
         dest: /var/www/html
         remote_src: yes
-
-      
-    - name: Add groups
-      ansible.builtin.group:
-        
+        extra_opts: [--strip-components=1]
+    #- name: Add groups
+    #  ansible.builtin.group:
