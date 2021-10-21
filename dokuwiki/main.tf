@@ -50,12 +50,27 @@ resource "google_compute_instance" "vm_instance" {
     network = google_compute_network.vpc_network.name
     access_config {
     }
+
+  attached_disk {
+      source = "data"
+      mode = "READ_WRITE"
+      device_name = "data"
+    }    
   }
   
   service_account {
     email  = google_service_account.dokuwiki-service-account.email
     scopes = ["cloud-platform"]
   }
+}
+
+resource "google_compute_disk" "default" {
+  name  = "data"
+  type  = "pd-standard"
+  labels = {
+    environment = "dev"
+  }
+  size = 100
 }
 
 resource "google_compute_firewall" "default-firewall" {
