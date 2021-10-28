@@ -49,5 +49,21 @@
       ansible.builtin.file: 
         path: /etc/cron.hourly/backup
         state: directory
-    #- name: Add groups
-    #  ansible.builtin.group:
+    - name: Copy files
+      ansible.builtin.copy:
+        src: /home/liliharbottle/cis-91/dokuwiki/dokuwiki-backup.sh
+        dest: /etc/cron.hourly/backup
+        remote_src: no
+#    - name: Copy files
+#      ansible.builtin.copy:
+#        src: /home/liliharbottle/cis-91/dokuwiki/life.json
+#        dest: /etc/cron.hourly/backup
+#        remote_src: no    
+ #   - name: Create a bucket 
+ #     ansible.builtin.gc_storage:
+ #       bucket: backup-bucket
+ #       mode: create   
+    
+    
+    
+    

@@ -97,3 +97,18 @@ resource "google_project_iam_member" "project_member" {
 output "external-ip" {
   value = google_compute_instance.vm_instance.network_interface[0].access_config[0].nat_ip
 }
+
+resource "google_storage_bucket" "auto-expire" {
+    name = "backup-bucket-324121"
+    location = "US"
+    force_destroy = true
+    
+    lifecycle_rule {
+        condition {
+            age = 182
+        }
+        action {
+            type = "Delete"
+        }        
+    }
+}
