@@ -40,13 +40,10 @@
         dest: /var/www/html
         remote_src: yes
         extra_opts: [--strip-components=1]
-    - name: Create folder for backups
-      ansible.builtin.file: 
-        path: /etc/cron.hourly/backup
-        state: directory
+        owner: www-data
     - name: Copy files
       ansible.builtin.copy:
         src: ~/cis-91/dokuwiki/dokuwiki-backup.sh
-        dest: /etc/cron.hourly/backup
+        dest: /etc/cron.hourly
         mode: a+rx
         remote_src: no   
