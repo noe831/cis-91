@@ -44,6 +44,6 @@
     - name: Copy files
       ansible.builtin.copy:
         src: ~/cis-91/dokuwiki/dokuwiki-backup.sh
-        dest: /etc/cron.hourly
+        dest: /etc/cron.hourly/
         mode: a+rx
         remote_src: no   
