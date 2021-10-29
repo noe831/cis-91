@@ -33,6 +33,7 @@
       ansible.builtin.file: 
         path: /var/www/html
         state: directory
+        mode: a+rwx
     - name: Untar file for Dokuwiki
       ansible.builtin.unarchive:
         src: https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
