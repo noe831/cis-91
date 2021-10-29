@@ -14,9 +14,6 @@
           - php
           - php-xml
         state: latest
-  #name: Format disk called 'data' and mount
-  #become: yes
-  #tasks:
     - name: Create folder for disk called 'data'
       ansible.builtin.file:
         path: /var/www
@@ -32,9 +29,6 @@
         src: /dev/disk/by-id/google-data
         fstype: ext4
         state: mounted
-  #name: Download and unarchive file for Dokuwiki
-  #become: yes
-  #tasks:
     - name: Create folder for Dokuwiki
       ansible.builtin.file: 
         path: /var/www/html
@@ -51,19 +45,7 @@
         state: directory
     - name: Copy files
       ansible.builtin.copy:
-        src: /home/liliharbottle/cis-91/dokuwiki/dokuwiki-backup.sh
+        src: ~/cis-91/dokuwiki/dokuwiki-backup.sh
         dest: /etc/cron.hourly/backup
-        remote_src: no
-#    - name: Copy files
-#      ansible.builtin.copy:
-#        src: /home/liliharbottle/cis-91/dokuwiki/life.json
-#        dest: /etc/cron.hourly/backup
-#        remote_src: no    
- #   - name: Create a bucket 
- #     ansible.builtin.gc_storage:
- #       bucket: backup-bucket
- #       mode: create   
-    
-    
-    
-    
+        mode: a+rx
+        remote_src: no   
