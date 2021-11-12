@@ -1,0 +1,30 @@
+---
+- hosts: all
+  name: Add cis-91 packages
+  become: yes
+  tasks:
+    - name: Install packages 
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+        name:
+          - python3-pip 
+          - python3-venv
+          
+- hosts: gcp_role_web
+  name: Install Apache on the web servers
+  become: yes
+  tasks:
+    - name: Install packages 
+      ansible.builtin.apt:
+        name:
+          - apache2
+          - php
+    - name: Update index.html so we can see the difference between hosts 
+      blockinfile:
+        path: /var/www/html/index.html
+        owner: www-data 
+        marker: "<!-- {mark} ANSIBLE MANAGED BLOCK -->"
+        insertafter: <body> 
+        block: | 
+          <h1>This is the server {{ inventory_hostname }}</h1>        
