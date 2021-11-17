@@ -39,28 +39,31 @@ resource "google_compute_network" "vpc_network" {
 }
 
 // Create three subnets
-resource "google_compute_subnetwork" "subnet1" {
-  name          = "us1-subnet"
+resource "google_compute_subnetwork" "us1-subnet" {
+  name          = "lab11-network"
   ip_cidr_range = "10.91.0.0/24"
   description = "Central region of the US"
   region        = "us-central1"
-  network       = google_compute_network.vpc_network.name
+  #network       = google_compute_network.vpc_network.name
+  network       = google_compute_network.vpc_network.self_link
 }
 
-resource "google_compute_subnetwork" "subnet2" {
-  name          = "us2-subnet"
+resource "google_compute_subnetwork" "us2-subnet" {
+  name          = "lab11-network"
   ip_cidr_range = "10.91.1.0/29"
   description = "East region of the US"
   region        = "us-east1"
-  network       = google_compute_network.vpc_network.name
+  #network       = google_compute_network.vpc_network.name
+  network       = google_compute_network.vpc_network.self_link
 }
 
-resource "google_compute_subnetwork" "subnet3" {
-  name          = "us3-subnet"
+resource "google_compute_subnetwork" "us-3subnet" {
+  name          = "lab11-network"
   ip_cidr_range = "10.91.2.0/25"
   description = "West region of the US"
   region        = "us-west3"
-  network       = google_compute_network.vpc_network.name
+  #network       = google_compute_network.vpc_network.name
+  network       = google_compute_network.vpc_network.self_link
 }
 
 resource "google_compute_instance" "vm_instance" {
@@ -74,7 +77,8 @@ resource "google_compute_instance" "vm_instance" {
   }
 
   network_interface {
-    network = google_compute_network.vpc_network.name
+    #network = google_compute_network.vpc_network.name
+    subnetwork = google_compute_network.vpc_network.name #"${google_compute_network.vpc_network.name}"
     access_config {
     }
   }
