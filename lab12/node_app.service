@@ -1,0 +1,13 @@
+[Unit]
+Description=CIS-91 Lab 12
+Documentation=https://www.lifealgorithmic.com/cis-91/labs/12-startup-process.html
+After=network.target
+
+[Service]
+Environment=NODE_PORT=3000
+Type=simple
+User=nodeuser
+ExecStart=/usr/bin/node /home/nodeuser/cis91/hello-nodejs/app.js
+
+[Install]
+WantedBy=multi-user.target
